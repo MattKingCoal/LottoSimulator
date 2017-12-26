@@ -8,9 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.log4j.Logger;
 
-public class LottoUtils {
+public class LottoEngine {
 
-    static Logger log = Logger.getLogger(LottoUtils.class);
+    static Logger log = Logger.getLogger(LottoEngine.class);
 
     public static LottoResult generate(int max) {
         log.debug("Simulating lotto result");
@@ -84,7 +84,6 @@ public class LottoUtils {
                     break;
                 }
         }
-
         log.info(String.format("Win type: %s", wt));
         Optional<WinType> owt;
         if (wt == null) {
