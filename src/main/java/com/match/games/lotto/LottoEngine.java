@@ -85,12 +85,7 @@ public class LottoEngine {
                 }
         }
         log.info(String.format("Win type: %s", wt));
-        Optional<WinType> owt;
-        if (wt == null) {
-            owt = Optional.empty();
-        } else {
-            owt = Optional.of(wt);
-        }
+        Optional<WinType> owt = (wt != null) ? Optional.of(wt) : Optional.empty();
         return owt;
     }
 }
