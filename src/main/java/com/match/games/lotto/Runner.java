@@ -57,7 +57,7 @@ public class Runner {
         int prizeMoney = 0;
         for (WinType wt : countBreakdown.keySet()) {
             long amount = countBreakdown.get(wt) * prizeMap.get(wt);
-            log.info(countBreakdown.get(wt) + " * " + wt + " = " + amount);
+            log.info(countBreakdown.get(wt) + " * " + wt + " = €" + amount);
             prizeMoney += amount;
         }
 
