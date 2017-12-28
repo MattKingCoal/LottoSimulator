@@ -1,6 +1,7 @@
 package com.match.games.lotto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +14,17 @@ public class Runner {
 
     public static final int MAXLOTTOVALUE = 42;
     static Logger log = Logger.getLogger(Runner.class);
+    static Map<WinType, Integer> prizeMap = new HashMap<>();
+
+    static {
+        prizeMap.put(WinType.MATCH3, 9);
+        prizeMap.put(WinType.MATCH3PLUS, 27);
+        prizeMap.put(WinType.MATCH4, 53);
+        prizeMap.put(WinType.MATCH4PLUS, 190);
+        prizeMap.put(WinType.MATCH5, 1500);
+        prizeMap.put(WinType.MATCH5PLUS, 71000);
+        prizeMap.put(WinType.MATCH6, 5000000);
+    }
 
     public static void main(String[] args) {
         log.info("Starting............");
@@ -35,11 +47,20 @@ public class Runner {
             }
         }
 
-        log.info("Todal wins: " + wins.size());
+        log.info("Total wins: " + wins.size());
 
         Map<WinType, Long> countBreakdown = wins.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         log.info("Breakdown: " + countBreakdown);
+
+        int prizeMoney = 0;
+        for (WinType wt : countBreakdown.keySet()) {
+            long amount = countBreakdown.get(wt) * prizeMap.get(wt);
+            log.info(countBreakdown.get(wt) + " * " + wt + " = " + amount);
+            prizeMoney += amount;
+        }
+
+        log.info(String.format("Total prizemoney: €%d", prizeMoney));
     }
 }
