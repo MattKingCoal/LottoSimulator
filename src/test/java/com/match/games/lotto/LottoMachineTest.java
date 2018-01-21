@@ -11,13 +11,13 @@ import java.util.Optional;
 
 import org.junit.Test;
 
-public class LottoEngineTest {
+public class LottoMachineTest {
 
     public static int defaultlottoSize = 42;
 
     @Test
     public void generateReturnsResult() {
-        LottoResult result = LottoEngine.generate(12);
+        LottoResult result = LottoMachine.getInstance().generate(12);
         assertTrue(result.getNumbers().size() == 6);
         assertTrue(result.getBonus() != null);
     }
@@ -25,7 +25,7 @@ public class LottoEngineTest {
     @Test
     public void generateRetrunsResultWithinRange() {
         int max = 42;
-        LottoResult result = LottoEngine.generate(max);
+        LottoResult result = LottoMachine.getInstance().generate(max);
         List<Integer> numbers = result.getNumbers();
         for (Integer i : numbers) {
             assertTrue(i <= max);
@@ -34,7 +34,7 @@ public class LottoEngineTest {
 
     @Test
     public void generateReturnsNoDuplicates() {
-        LottoResult result = LottoEngine.generate(7);
+        LottoResult result = LottoMachine.getInstance().generate(7);
         LinkedHashSet<Integer> lhs = new LinkedHashSet<>();
         // Duplicates won't be copied in so size should be the same
         lhs.addAll(result.getNumbers());
@@ -46,7 +46,7 @@ public class LottoEngineTest {
         List<Integer> selection = Arrays.asList(new Integer[] { 4, 8, 15, 16, 23, 42 });
         LottoResult lr = new LottoResult(selection, 12);
 
-        Optional<WinType> owt = LottoEngine.evaluate(selection, lr);
+        Optional<WinType> owt = LottoMachine.getInstance().evaluate(selection, lr);
         assertEquals(WinType.MATCH6, owt.get());
     }
 
@@ -56,7 +56,7 @@ public class LottoEngineTest {
         List<Integer> resultSix = Arrays.asList(new Integer[] { 4, 8, 9, 16, 23, 42 });
         LottoResult lr = new LottoResult(resultSix, 12);
 
-        Optional<WinType> owt = LottoEngine.evaluate(selection, lr);
+        Optional<WinType> owt = LottoMachine.getInstance().evaluate(selection, lr);
         assertEquals(WinType.MATCH5PLUS, owt.get());
     }
 
@@ -66,7 +66,7 @@ public class LottoEngineTest {
         List<Integer> resultSix = Arrays.asList(new Integer[] { 4, 5, 15, 19, 41, 42 });
         LottoResult lr = new LottoResult(resultSix, 12);
 
-        Optional<WinType> owt = LottoEngine.evaluate(selection, lr);
+        Optional<WinType> owt = LottoMachine.getInstance().evaluate(selection, lr);
         assertFalse(owt.isPresent());
     }
 }

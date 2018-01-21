@@ -15,6 +15,8 @@ public class Runner {
 
     public static void main(String[] args) {
         log.info("Starting............");
+        log.info("Creating machine....");
+        LottoMachine machine = LottoMachine.getInstance();
         List<Integer> usersSelection = new ArrayList<>();
 
         for (String s : args) {
@@ -25,8 +27,8 @@ public class Runner {
         List<WinType> wins = new ArrayList<>();
         int plays = Integer.valueOf(System.getProperty("lotto.plays", "2000"));
         for (int i = 1; i <= plays; i++) {
-            LottoResult result = LottoEngine.generate(LottoConstants.DEFAULTMAXVALUE);
-            Optional<WinType> owt = LottoEngine.evaluate(usersSelection, result);
+            LottoResult result = machine.generate(LottoConstants.DEFAULTMAXVALUE);
+            Optional<WinType> owt = machine.evaluate(usersSelection, result);
             if (owt.isPresent()) {
                 WinType wt = owt.get();
                 log.info(String.format("YES, a WIN!!, spin %d Won %s", i, wt));

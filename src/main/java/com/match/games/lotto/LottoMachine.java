@@ -8,11 +8,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.log4j.Logger;
 
-public class LottoEngine {
+public class LottoMachine {
 
-    static Logger log = Logger.getLogger(LottoEngine.class);
+    static Logger log = Logger.getLogger(LottoMachine.class);
+    private static LottoMachine instance;
 
-    public static LottoResult generate(int max) {
+    private LottoMachine() {
+    }
+
+    public static synchronized LottoMachine getInstance() {
+        if (instance == null) {
+            instance = new LottoMachine();
+        }
+        return instance;
+    }
+
+    public LottoResult generate(int max) {
         log.debug("Simulating lotto result");
         if (max < 7)
             throw new IllegalArgumentException("Size can't be less than 7");
@@ -39,7 +50,7 @@ public class LottoEngine {
         return result;
     }
 
-    public static Optional<WinType> evaluate(List<Integer> selection, LottoResult result) {
+    public Optional<WinType> evaluate(List<Integer> selection, LottoResult result) {
         if (selection.size() != 6) {
             throw new IllegalArgumentException("Only 6 numbers can be used");
         }
