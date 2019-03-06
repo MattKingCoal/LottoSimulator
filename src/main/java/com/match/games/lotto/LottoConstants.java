@@ -3,6 +3,8 @@ package com.match.games.lotto;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.match.games.lotto.model.WinType;
+
 public class LottoConstants {
 
     public static final int DEFAULTMAXVALUE = 42;

@@ -1,4 +1,4 @@
-package com.match.games.lotto;
+package com.match.games.lotto.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,21 +8,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.log4j.Logger;
 
-public class LottoMachine {
+import com.match.games.lotto.model.LottoResult;
+import com.match.games.lotto.model.WinType;
+
+public class LottoMachine implements Lotto {
 
     static Logger log = Logger.getLogger(LottoMachine.class);
-    private static LottoMachine instance;
 
-    private LottoMachine() {
+    public LottoMachine() {
     }
 
-    public static synchronized LottoMachine getInstance() {
-        if (instance == null) {
-            instance = new LottoMachine();
-        }
-        return instance;
-    }
-
+    @Override
     public LottoResult generate(int max) {
         log.debug("Simulating lotto result");
         if (max < 7)
@@ -50,6 +46,7 @@ public class LottoMachine {
         return result;
     }
 
+    @Override
     public Optional<WinType> evaluate(List<Integer> selection, LottoResult result) {
         if (selection.size() != 6) {
             throw new IllegalArgumentException("Only 6 numbers can be used");

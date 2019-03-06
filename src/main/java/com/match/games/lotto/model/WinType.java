@@ -1,4 +1,4 @@
-package com.match.games.lotto;
+package com.match.games.lotto.model;
 
 public enum WinType {
 

@@ -8,15 +8,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.match.games.lotto.api.Lotto;
+import com.match.games.lotto.model.LottoResult;
+import com.match.games.lotto.model.WinType;
 
 public class Runner {
 
     static Logger log = Logger.getLogger(Runner.class);
 
-    public static void main(String[] args) {
+    @Autowired
+    private Lotto lotto;
+
+    public void go(String[] args) {
         log.info("Starting............");
         log.info("Creating machine....");
-        LottoMachine machine = LottoMachine.getInstance();
+
         List<Integer> usersSelection = new ArrayList<>();
 
         for (String s : args) {
@@ -27,8 +35,8 @@ public class Runner {
         List<WinType> wins = new ArrayList<>();
         int plays = Integer.valueOf(System.getProperty("lotto.plays", "2000"));
         for (int i = 1; i <= plays; i++) {
-            LottoResult result = machine.generate(LottoConstants.DEFAULTMAXVALUE);
-            Optional<WinType> owt = machine.evaluate(usersSelection, result);
+            LottoResult result = lotto.generate(LottoConstants.DEFAULTMAXVALUE);
+            Optional<WinType> owt = lotto.evaluate(usersSelection, result);
             if (owt.isPresent()) {
                 WinType wt = owt.get();
                 log.info(String.format("YES, a WIN!!, spin %d Won %s", i, wt));
@@ -51,5 +59,13 @@ public class Runner {
         }
 
         log.info(String.format("Total prizemoney: €%d", prizeMoney));
+    }
+
+    public Lotto getLotto() {
+        return lotto;
+    }
+
+    public void setLotto(Lotto lotto) {
+        this.lotto = lotto;
     }
 }
